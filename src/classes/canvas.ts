@@ -16,6 +16,38 @@ export class Canvas {
 
         this._context = context;
         this.onResize();
+
+        let timeout: number | null = null;
+        let throttled: boolean = false;
+        let debounce: number = 16;
+
+        window.addEventListener('resize', () => {
+            if (timeout !== null) {
+                window.clearTimeout(timeout);
+            }
+
+            timeout = window.setTimeout(() => {
+                this.onResize()
+            }, debounce);
+
+            if (!throttled) {
+                this.onResize();
+                throttled = true;
+
+                window.setTimeout(() => {
+                    throttled = false;
+                }, debounce)
+            }
+        });
+    }
+
+    public drawFrame(): void {
+        this.moveTo(0,0);
+        this.lineTo(1, 0);
+        this.lineTo(1, 1);
+        this.lineTo(0, 1);
+        this.lineTo(0, 0);
+        this.stroke();
     }
 
     public redraw(): void {
@@ -30,6 +62,8 @@ export class Canvas {
         this._height = this._canvas.getBoundingClientRect().height;
         this._canvas.width = this._width;
         this._canvas.height = this._height;
+
+        this.redraw();
     }
 
     public arc(x: number, y: number, radius: number, startAngle: number, endAngle: number): void {
