@@ -109,7 +109,7 @@ export class Canvas {
     private _arc(x: number, y: number, radius: number, startAngle: number, endAngle: number): void {
         let { x: normalisedX, y: normalisedY } = this._normalise({ x, y });
 
-        this._context.arc(normalisedX, normalisedY, radius, startAngle, endAngle);
+        this._context.arc(normalisedX, normalisedY, radius * Math.min(this._width, this._height), startAngle, endAngle);
     }
 
     private _moveTo(x: number, y: number): void {

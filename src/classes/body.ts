@@ -7,14 +7,16 @@ export class Body {
     public force: Array<Vector>;
     public mass: number;
     public momentum: Vector;
+    public radius: number;
 
-    constructor(position: Vector, velocity: Vector, mass: number) {
+    constructor(position: Vector, velocity: Vector, mass: number, radius: number) {
         this.position = position;
         this.velocity = velocity;
         this.mass = mass;
         this.force = [];
         this.momentum = Vector.multiply(velocity, mass);
         this.projectedPosition = Vector.add(position, velocity);
+        this.radius = radius;
     }
 
     public tick(): void {
