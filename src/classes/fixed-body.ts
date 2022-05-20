@@ -1,10 +1,10 @@
-import { Vector } from './vector.js';
+import { VectorInterface } from '../interfaces/vector.interface';
 
 export class FixedBody {
-    public position: Vector;
+    public position: VectorInterface;
     public radius: number;
 
-    constructor(position: Vector, radius: number) {
+    constructor(position: VectorInterface, radius: number) {
         this.position = position;
         this.radius = radius;
     }

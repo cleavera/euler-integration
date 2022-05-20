@@ -1,3 +1,5 @@
+import { AngleInterface } from '../interfaces/angle.interface';
+
 export class Canvas {
     private _context: CanvasRenderingContext2D;
     private _canvas: HTMLCanvasElement;
@@ -66,7 +68,7 @@ export class Canvas {
         this.redraw();
     }
 
-    public arc(x: number, y: number, radius: number, startAngle: number, endAngle: number): void {
+    public arc(x: number, y: number, radius: number, startAngle: AngleInterface, endAngle: AngleInterface): void {
         this._instructions.push(() => {
             this._arc(x, y, radius, startAngle, endAngle);
         })
@@ -106,10 +108,10 @@ export class Canvas {
         this._instructions = [];
     }
 
-    private _arc(x: number, y: number, radius: number, startAngle: number, endAngle: number): void {
+    private _arc(x: number, y: number, radius: number, startAngle: AngleInterface, endAngle: AngleInterface): void {
         let { x: normalisedX, y: normalisedY } = this._normalise({ x, y });
 
-        this._context.arc(normalisedX, normalisedY, radius * Math.min(this._width, this._height), startAngle, endAngle);
+        this._context.arc(normalisedX, normalisedY, radius * Math.min(this._width, this._height), startAngle.radians, endAngle.radians);
     }
 
     private _moveTo(x: number, y: number): void {
