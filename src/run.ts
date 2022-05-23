@@ -51,7 +51,7 @@ function updatePoints() {
 
             if (resultant.magnitude < (body.radius + fixed[j].radius)) {
                 body.applyForce(Vector.multiply(Vector.invert(Vector.componentInDirectionOfVector(body.momentum, resultant)), 2));
-                body.position = Vector.add(fixed[j].position, Vector.FromPolar(fixed[j].radius + body.radius, resultant.angle));
+                body.updatePosition(Vector.add(fixed[j].position, Vector.FromPolar(fixed[j].radius + body.radius, resultant.angle)));
             }
         }
 
@@ -64,7 +64,7 @@ function updatePoints() {
 
             if (resultant.magnitude < (body.radius + bodies[j].radius)) {
                 body.applyForce(Vector.multiply(Vector.invert(Vector.componentInDirectionOfVector(body.momentum, resultant)), 2));
-                body.position = Vector.add(bodies[j].position, Vector.FromPolar(bodies[j].radius + body.radius, resultant.angle));
+                body.updatePosition(Vector.add(bodies[j].position, Vector.FromPolar(bodies[j].radius + body.radius, resultant.angle)));
             }
         }
 

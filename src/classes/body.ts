@@ -25,6 +25,10 @@ export class Body {
         this._force.push(force);
     }
 
+    public updatePosition(position: VectorInterface): void {
+        this.position = position;
+    }
+
     public tick(): void {
         const acceleration: VectorInterface = this._force.reduce((acceleration: VectorInterface, force: VectorInterface) => {
             return Vector.add(acceleration, Vector.multiply(force, 1 / this.mass));
