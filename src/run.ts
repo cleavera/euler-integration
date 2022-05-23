@@ -14,9 +14,6 @@ let bodies = [
     new Body(Vector.FromCartesian(0.6, 0.1), Vector.FromCartesian(0.005, 0.05), 4, 0.01),
     new Body(Vector.FromCartesian(0.4, 0.1), Vector.FromCartesian(-0.005, 0.05), 4, 0.01),
     new Body(Vector.FromCartesian(0.5, 0.9), Vector.FromCartesian(0, 0), 4, 0.01),
-];
-
-let fixed = [
     new FixedBody(Vector.FromCartesian(-99.99, 0.5), 100),
     new FixedBody(Vector.FromCartesian(0.5, -99.99), 100),
     new FixedBody(Vector.FromCartesian(100.99, 0.5), 100),
@@ -46,15 +43,6 @@ function updatePoints() {
         body.applyForce(gravity);
         body.applyForce(Vector.multiply(body.momentum, friction))
 
-        for (let j = 0; j < fixed.length; j++) {
-            const resultant = Vector.subtract(body.projectedPosition, fixed[j].position);
-
-            if (resultant.magnitude < (body.radius + fixed[j].radius)) {
-                body.applyForce(Vector.multiply(Vector.invert(Vector.componentInDirectionOfVector(body.momentum, resultant)), 2));
-                body.updatePosition(Vector.add(fixed[j].position, Vector.FromPolar(fixed[j].radius + body.radius, resultant.angle)));
-            }
-        }
-
         for (let j = 0; j < bodies.length; j++) {
             if (body === bodies[j]) {
                 continue;
@@ -75,13 +63,6 @@ function updatePoints() {
 function renderPoints() {
     for(let i = 0; i < bodies.length; i++) {
         let p = bodies[i];
-        canvas.beginPath();
-        canvas.circle(p.position.x, p.position.y, p.radius);
-        canvas.fill();
-    }
-
-    for(let i = 0; i < fixed.length; i++) {
-        let p = fixed[i];
         canvas.beginPath();
         canvas.circle(p.position.x, p.position.y, p.radius);
         canvas.fill();
