@@ -43,14 +43,14 @@ function updatePoints() {
     for(let i = 0; i < bodies.length; i++) {
         const body = bodies[i];
 
-        body.force.push(gravity);
-        body.force.push(Vector.multiply(body.momentum, friction))
+        body.applyForce(gravity);
+        body.applyForce(Vector.multiply(body.momentum, friction))
 
         for (let j = 0; j < fixed.length; j++) {
             const resultant = Vector.subtract(body.projectedPosition, fixed[j].position);
 
             if (resultant.magnitude < (body.radius + fixed[j].radius)) {
-                body.force.push(Vector.multiply(Vector.invert(Vector.componentInDirectionOfVector(body.momentum, resultant)), 2));
+                body.applyForce(Vector.multiply(Vector.invert(Vector.componentInDirectionOfVector(body.momentum, resultant)), 2));
                 body.position = Vector.add(fixed[j].position, Vector.FromPolar(fixed[j].radius + body.radius, resultant.angle));
             }
         }
@@ -63,7 +63,7 @@ function updatePoints() {
             const resultant = Vector.subtract(body.projectedPosition, bodies[j].position);
 
             if (resultant.magnitude < (body.radius + bodies[j].radius)) {
-                body.force.push(Vector.multiply(Vector.invert(Vector.componentInDirectionOfVector(body.momentum, resultant)), 2));
+                body.applyForce(Vector.multiply(Vector.invert(Vector.componentInDirectionOfVector(body.momentum, resultant)), 2));
                 body.position = Vector.add(bodies[j].position, Vector.FromPolar(bodies[j].radius + body.radius, resultant.angle));
             }
         }
