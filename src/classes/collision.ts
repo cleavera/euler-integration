@@ -16,16 +16,17 @@ export class Collision {
     public resolve(): void {
         const body1ImpactPoint: VectorInterface = Vector.subtract(this.collisionPoint, this.body1.position);
         const body2ImpactPoint: VectorInterface = Vector.subtract(this.collisionPoint, this.body2.position);
+        const totalElasticity: number = this.body1.elasticity * this.body2.elasticity;
 
-        let impactForce: VectorInterface = Vector.subtract(
+        let impactForce: VectorInterface = Vector.multiply(Vector.subtract(
             Vector.componentInDirectionOfVector(this.body1.momentum, body1ImpactPoint),
             Vector.componentInDirectionOfVector(this.body2.momentum, body2ImpactPoint)
-        );
+        ), totalElasticity);
 
         if (this.body2.isFixed) {
-            impactForce = Vector.multiply(Vector.componentInDirectionOfVector(this.body1.momentum, body1ImpactPoint), 2);
+            impactForce = Vector.multiply(Vector.componentInDirectionOfVector(this.body1.momentum, body1ImpactPoint), 1 + totalElasticity);
         } else if (this.body1.isFixed) {
-            impactForce = Vector.multiply(Vector.componentInDirectionOfVector(this.body2.momentum, body2ImpactPoint), -2);
+            impactForce = Vector.multiply(Vector.componentInDirectionOfVector(this.body2.momentum, body2ImpactPoint), -1 - totalElasticity);
         }
 
         this.body1.applyForce(Vector.invert(impactForce));
