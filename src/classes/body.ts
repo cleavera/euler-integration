@@ -1,20 +1,24 @@
+import { BodyInterface } from '../interfaces/body.interface.js';
 import { VectorInterface } from '../interfaces/vector.interface';
 import { Vector } from './vector.js';
 
-export class Body {
+export class Body implements BodyInterface {
     public position: VectorInterface;
     public projectedPosition: VectorInterface;
     public velocity: VectorInterface;
     public mass: number;
     public momentum: VectorInterface;
     public radius: number;
+    public elasticity: number;
+    public isFixed: boolean = false;
 
     private _force: Array<VectorInterface>;
 
-    constructor(position: VectorInterface, velocity: VectorInterface, mass: number, radius: number) {
+    constructor(position: VectorInterface, velocity: VectorInterface, mass: number, radius: number, elasticity: number = 1) {
         this.position = position;
         this.velocity = velocity;
         this.mass = mass;
+        this.elasticity = elasticity;
         this._force = [];
         this.momentum = Vector.multiply(velocity, mass);
         this.projectedPosition = Vector.add(position, velocity);
