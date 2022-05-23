@@ -1,4 +1,5 @@
 import { AngleInterface } from '../interfaces/angle.interface';
+import { Angle } from './angle.js';
 
 export class Canvas {
     private _context: CanvasRenderingContext2D;
@@ -66,6 +67,10 @@ export class Canvas {
         this._canvas.height = this._height;
 
         this.redraw();
+    }
+
+    public circle(x: number, y: number, radius: number): void {
+        this.arc(x, y, radius, Angle.FromTurns(0), Angle.FromTurns(1));
     }
 
     public arc(x: number, y: number, radius: number, startAngle: AngleInterface, endAngle: AngleInterface): void {
